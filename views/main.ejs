@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('./partials/header.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <h1>HOME &#127968;</h1>
+
+
+    <h3>You have <%= tasks.length %> tasks: </h3>
+    <!-- <h5 class="text-center">Hooray, no tasks!</h5> -->
+    <% if (tasks.length > 0) { %>
+      <% tasks.forEach(t => { %>
+        <div class="card task-card">
+          <div class="card-body">
+            <p><%= t.task %></p>
+            <a class="btn btn-outline-danger delete" data-tid="<%= t._id %>">Delete</a>
+            <!-- <a class="btn btn-outline-info" data-taskID="<%= t._id %>">Edit</a> -->
+          </div>
+        </div>
+      <% }) %>
+    <% } else {%>
+      <p class="text-center">Hooray, no tasks!</p>
+    <% } %>
+
+    <!-- <button class="randombutton" data-doc="hihowareyouss">HELLO</button> -->
+
+    <%- include('./partials/footer.ejs') %>
+
+  </body>
+
+  <script>
+    // const b = document.querySelector('.randombutton')
+    // console.log(b.dataset.doc)
+
+    /////////
+
+    const trashcans = document.querySelectorAll('.delete')
+    trashcans.forEach((button, i) => {
+      button.addEventListener('click', (e) => {
+        const endpoint = `${button.dataset.tid}`
+        console.log(endpoint)
+        
+        // Fetch API
+        fetch(endpoint, {
+          method: 'DELETE' // Delete request
+        })
+        .then(response => response.json()) // Retrieves the response given from the server and returns json object
+        .then(data => window.location.href = data.redirect) // Redirect back to main page
+        .catch(error => console.log(error))
+      })
+    })
+
+    // trashcans.forEach((button, i) => {
+    //   const endpoint = `${button.dataset.tid}`
+    //   console.log(endpoint)
+    // })
+
+  </script>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+    <%- include('./partials/header.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <h1>ADD TASK &#128211;</h1>
+      <div class="card">
+        <div class="card-body input-task">
+          <h5 class="card-title">Input Your Task</h5>
+          <form action="/task", method="POST">
+            <input class="form-control task-textbox" type="text" required placeholder="Ex: Doing Math Homework" aria-label="default input example" minLength="5", maxlength="60" name="task">
+            <div>Number of characters left: <span class="counter">60</span></div>
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button class="btn btn-outline-success upload-btn">Submit</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+  </body>
+  <%- include('./partials/footer.ejs') %>
+
+  <script>
+
+      (() => {
+        document.addEventListener('keyup', (event) => {
+          if (event.target.matches('.task-textbox')) { 
+            // Get input value and length
+            const val = event.target.value
+            const valLength = val.length
+
+            // Get data values
+            const maxChars = parseInt(event.target.getAttribute('maxlength')) // The attribute is a string so conver to an int
+            const remainingChars = maxChars - valLength
+
+            const counter = document.querySelector('.counter')
+            counter.innerHTML = remainingChars
+          }
+        })
+      })()
+  </script>
+
+</html>
